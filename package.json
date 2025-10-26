@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
      "start": "node server.js",
-     "postinstall": "cd vite-project && npm install && npm run build"
+  "postinstall": "rm -rf vite-project/dist && cd vite-project && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
