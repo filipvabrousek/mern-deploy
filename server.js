@@ -18,7 +18,7 @@ let shouldAllowExamStart = true;
 require('dotenv').config();
 
 import cors from 'cors';
-import { GREEK } from 'mysql/lib/protocol/constants/charsets';
+// import { GREEK } from 'mysql/lib/protocol/constants/charsets';
 app.use(cors());
 
 import { writeFileSync } from "fs";
