@@ -7,7 +7,7 @@ const app = express();
 app.use(json({ limit: '100mb' })); // Middleware to parse JSON
 // limit too large error
 const NODE_ENV = 'production';
-const MONGO_URI = 'mongodb+srv://<username>:<password>@cluster0.mongodb.net/testdb';
+const MONGO_URI = "mongodb+srv://filipvabrousek:Raketoplan-2011@cluster0.9g60lki.mongodb.net/?appName=Cluster0";
 const JWT_SECRET = 'yourSuperSecretKey';  // 19:34:59 Works!!! 09/10/2024
 
 let startTime = null; // Server-side variable to store exam start time
