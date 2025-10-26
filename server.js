@@ -1,7 +1,8 @@
 import express, { json } from 'express';
 import { connect, Schema, model } from 'mongoose';
 import { genSalt, hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
 const app = express();
 app.use(json({ limit: '100mb' })); // Middleware to parse JSON
 // limit too large error
