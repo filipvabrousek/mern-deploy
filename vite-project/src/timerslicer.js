@@ -3,10 +3,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Async thunk to fetch the remaining exam time from the server
 export const fetchExamTimeThunk = createAsyncThunk('timer/fetchExamTime', async () => {
-  const response = await fetch("http://localhost:3002/questionsAPI", {
+  const response = await fetch("/questionsAPI", {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
+
+   if (!response.ok) {
+      console.error(`OServer error ${response.status}: ${await response.text()}`);
+      return;
+    }
 
   const data = await response.json();
   console.log("T " + data.timer);
