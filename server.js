@@ -11,7 +11,7 @@ const MONGO_URI = "mongodb+srv://filipvabrousek:Elelema-2025@cluster0.9g60lki.mo
 const JWT_SECRET = 'yourSuperSecretKey';  // 19:34:59 Works!!! 09/10/2024
 
 let startTime = null; // Server-side variable to store exam start time
-const EXAM_DURATION = 70-60;//80000; // was 70
+const EXAM_DURATION = 70;//80000; // was 70
 let isRunning = false;
 let isOver = true;
 let shouldAllowExamStart = true;
