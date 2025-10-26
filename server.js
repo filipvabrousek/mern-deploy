@@ -1068,25 +1068,6 @@ app.get('/api/users', async (req, res) => {
 });
 
 
-
-
-// ALLOW DEPLOY
-//import path from 'path';
-//import { fileURLToPath } from 'url';
-
-// If you use CommonJS, replace import with:
-import { resolve, join } from 'path';
-
-const __dirname = resolve();
-
-app.use(express.static(path.join(__dirname, 'vite-project', 'dist')));
-//app.use(static(join(__dirname, 'vite-project', 'dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, 'vite-project', 'dist', 'index.html'));
-});
-
-
 app.get('/', async (req, res, next) => {
   try {
     const users = await User.find();
@@ -1094,6 +1075,17 @@ app.get('/', async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ message: "Error fetching users", error: err });
   }
+});
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve Vite frontend
+app.use(express.static(join(__dirname, 'vite-project', 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, 'vite-project', 'dist', 'index.html'));
 });
 
 // Start the Express server
