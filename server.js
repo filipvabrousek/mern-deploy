@@ -16,7 +16,9 @@ let isRunning = false;
 let isOver = true;
 let shouldAllowExamStart = true;
 
-require('dotenv').config();
+// require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config(); // Loads variables from .env
 
 import cors from 'cors';
 // import { GREEK } from 'mysql/lib/protocol/constants/charsets';
