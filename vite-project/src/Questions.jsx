@@ -225,7 +225,7 @@ function Questions() {
 
   return (
     <Provider store={store}>
-      <h3>QExam</h3>
+      <h3 style={{color: "orange"}}>QExam</h3>
       <a href="/">Back</a>
       <h3>{localStorage.getItem("user") || "A"}</h3>
 
