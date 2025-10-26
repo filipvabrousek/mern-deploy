@@ -1,6 +1,6 @@
 // hooks/useExamAPI.js
 export const useExamAPI = () => {
-  const API = "http://localhost:3002";
+  const API = "";//"http://localhost:3002";
 
   const fetchJSON = async (endpoint, options = {}) => {
     const res = await fetch(`${API}${endpoint}`, {
