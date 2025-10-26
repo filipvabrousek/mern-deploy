@@ -8,6 +8,11 @@ export const fetchExamTimeThunk = createAsyncThunk('timer/fetchExamTime', async 
     headers: { 'Content-Type': 'application/json' },
   });
 
+   if (!response.ok) {
+      console.error(`OServer error ${response.status}: ${await response.text()}`);
+      return;
+    }
+
   const data = await response.json();
   console.log("T " + data.timer);
   return data.timer;
