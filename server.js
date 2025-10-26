@@ -1,9 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import express, { json } from 'express';
+import { connect, Schema, model } from 'mongoose';
+import { genSalt, hash, compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
 const app = express();
-app.use(express.json({ limit: '100mb' })); // Middleware to parse JSON
+app.use(json({ limit: '100mb' })); // Middleware to parse JSON
 // limit too large error
 const NODE_ENV = 'production';
 const MONGO_URI = 'mongodb+srv://<username>:<password>@cluster0.mongodb.net/testdb';
@@ -17,12 +17,12 @@ let shouldAllowExamStart = true;
 
 require('dotenv').config();
 
-const cors = require('cors');
-const { GREEK } = require('mysql/lib/protocol/constants/charsets');
+import cors from 'cors';
+import { GREEK } from 'mysql/lib/protocol/constants/charsets';
 app.use(cors());
 
-const fs = require("fs");
-const { createCanvas, loadImage } = require('canvas');
+import { writeFileSync } from "fs";
+import { createCanvas, loadImage } from 'canvas';
 
 // Connect to MongoDB
 /* LOCAL
@@ -35,7 +35,7 @@ mongoose.connect('mongodb://localhost:27017/testdb', {
 */
 
 // ONLINE
-mongoose.connect(MONGO_URI, {
+connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -43,7 +43,7 @@ mongoose.connect(MONGO_URI, {
 
 
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   name: { type: String, required: true },
   age: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
@@ -51,12 +51,12 @@ const userSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-const fileSchema = new mongoose.Schema({
+const fileSchema = new Schema({
   name: { type: String, required: true },
   data: { type: String, required: true }, // Store the file as a base64 string
 });
 
-const submissionSchema = new mongoose.Schema({
+const submissionSchema = new Schema({
   studentID: { type: String, required: true },
   name: { type: String, required: true },
   data: { type: String, required: true },
@@ -69,16 +69,16 @@ const submissionSchema = new mongoose.Schema({
 // timestamps: true} 23:52:29
 
 
-const imageSchema = new mongoose.Schema({
+const imageSchema = new Schema({
   fileName: String,
   data: Buffer,
   contentType: String,
 });
 
-const Image = mongoose.model('Image', imageSchema);
+const Image = model('Image', imageSchema);
 
 
-const emschema = new mongoose.Schema({
+const emschema = new Schema({
   userId: { type: String, required: true },   // could also be email or session ID
   examId: { type: String, required: true },
   answers: { type: Object, default: {} },     // { questionId: answer }
@@ -93,18 +93,18 @@ const emschema = new mongoose.Schema({
 // Hash password before saving
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next(); // Only hash if the password is modified
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt); // Hashing the password
+  const salt = await genSalt(10);
+  this.password = await hash(this.password, salt); // Hashing the password
   next();
 });
 
 
 // Compare password for login
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return await compare(enteredPassword, this.password);
 };
 
-const questionSchema = new mongoose.Schema({
+const questionSchema = new Schema({
  /* question: String,
   options: [String],
   answer: String, // Correct answer,
@@ -126,7 +126,7 @@ const questionSchema = new mongoose.Schema({
 });
 
 
-const gradeSchema = new mongoose.Schema({
+const gradeSchema = new Schema({
   userID: String,
   nickname: String,
   score: String,
@@ -137,12 +137,12 @@ const gradeSchema = new mongoose.Schema({
 
 
 
-const Question = mongoose.model('Question', questionSchema);
-const User = mongoose.model('User', userSchema);
-const Gradea = mongoose.model('Gradea', gradeSchema);
-const File = mongoose.model('File', fileSchema);
-const Submission = mongoose.model('Submission', submissionSchema);
-const ExamProgress = mongoose.model("ExamProgress", emschema);
+const Question = model('Question', questionSchema);
+const User = model('User', userSchema);
+const Gradea = model('Gradea', gradeSchema);
+const File = model('File', fileSchema);
+const Submission = model('Submission', submissionSchema);
+const ExamProgress = model("ExamProgress", emschema);
 const deadline = new Date('2024-10-28T15:39:00');
 // new Date('2025-10-28T15:39:00'); // Example deadline
 
@@ -301,7 +301,7 @@ app.get('/readFile/:id', async (req, res) => {
     // Save the canvas as a PNG image
     const outputPath = `./${submission.name.replace('.txt', '.png')}`;
     const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync(outputPath, buffer);
+    writeFileSync(outputPath, buffer);
 
     console.log(`Image saved successfully at ${outputPath}`);
 
@@ -704,7 +704,7 @@ app.post('/register', async (req, res) => {
     const newUser = new User({ name, age, email, password });
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = sign({ id: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token, user: { id: newUser._id, name: newUser.name, age: newUser.age, email: newUser.email } });
   } catch (err) {
     console.log("Error during registration.");
@@ -1020,7 +1020,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email } });
   } catch (err) {
     res.status(500).json({ message: "Error during login", error: err });
@@ -1072,14 +1072,15 @@ app.get('/api/users', async (req, res) => {
 //import { fileURLToPath } from 'url';
 
 // If you use CommonJS, replace import with:
-const path = require('path');
+import { resolve, join } from 'path';
 
-const __dirname = path.resolve();
+const __dirname = resolve();
 
 app.use(express.static(path.join(__dirname, 'vite-project', 'dist')));
+//app.use(static(join(__dirname, 'vite-project', 'dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'vite-project', 'dist', 'index.html'));
+  res.sendFile(join(__dirname, 'vite-project', 'dist', 'index.html'));
 });
 
 
