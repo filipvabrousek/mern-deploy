@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mern-test-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run heroku-postbuild
+    startCommand: npm start
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        value: mongodb+srv://<username>:<password>@cluster0.mongodb.net/testdb
+      - key: JWT_SECRET
+        value: super_secret_key_123
