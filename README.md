@@ -1,5 +1,5 @@
 # mern-deploy
-Mern deploy to reder
+Mern deploy to render
 
 
 Make render.yaml in root
