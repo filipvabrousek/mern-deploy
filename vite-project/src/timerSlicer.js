@@ -3,7 +3,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Async thunk to fetch the remaining exam time from the server
 export const fetchExamTimeThunk = createAsyncThunk('timer/fetchExamTime', async () => {
-  const response = await fetch("/questionsAPI", {
+ 
+  const isDeployed = true;
+  const API = isDeployed ? "" : "http://localhost:3002";
+ 
+  const response = await fetch(`${API}/questionsAPI`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
