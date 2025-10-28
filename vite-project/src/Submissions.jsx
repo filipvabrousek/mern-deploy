@@ -12,9 +12,12 @@ const Submissions = () => {
   const [images, setImages] = useState([]);
   const [bwi, setBWI] = useState([]);
 
+    const isDeployed = true;
+    const API = isDeployed ? "" : "http://localhost:3002";
+
   const fetchFiles = async () => {
     try {
-      const response = await fetch('http://localhost:3002/submissions'); // Adjust the URL based on your backend setup
+      const response = await fetch(`${API}/submissions`); // Adjust the URL based on your backend setup
       if (!response.ok) {
         throw new Error('Failed to fetch files');
       }
@@ -31,7 +34,7 @@ const Submissions = () => {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch('http://localhost:3002/images'); // Adjust backend URL
+      const response = await fetch(`${API}/images`); // Adjust backend URL
       if (!response.ok) {
         throw new Error('Failed to fetch images');
       }
@@ -51,8 +54,8 @@ const Submissions = () => {
 
     console.log("GET");
     console.log(obj.path);
-    //console.log(`http://localhost:3002/readFile/${obj.path}`)
-    const response = await fetch(`http://localhost:3002/readFile/${obj.path.split("/").pop()}`); // Adjust the URL based on your backend setup
+
+    const response = await fetch(`${API}/readFile/${obj.path.split("/").pop()}`); // Adjust the URL based on your backend setup
     try {
     if (!response.ok) {
       throw new Error('Failed to fetch files');
@@ -76,8 +79,8 @@ const Submissions = () => {
 
     console.log("GET");
     console.log(obj.path);
-    //console.log(`http://localhost:3002/readFile/${obj.path}`)
-    const response = await fetch(`http://localhost:3002/image/bw/${obj.path.split("/").pop()}`); // Adjust the URL based on your backend setup
+ 
+    const response = await fetch(`${API}/image/bw/${obj.path.split("/").pop()}`); // Adjust the URL based on your backend setup
     try {
     if (!response.ok) {
       throw new Error('Failed to fetch files');
@@ -109,12 +112,12 @@ const Submissions = () => {
             <li key={file._id}>
             {file.name}{' '}
             <a
-              href={`http://localhost:3002/files/${file._id}`} // Link to download file
+              href={`${API}/files/${file._id}`} // Link to download file
               download={file.name}
             >
               Download </a>
               <p>{file._id}</p>
-              <button onClick={() => readContents({path: `http://localhost:3002/files/${file._id}`})}>Read contents</button>
+              <button onClick={() => readContents({path: `${API}/files/${file._id}`})}>Read contents</button>
               <GradingForm fileId={file._id} />
           </li>
           ))
@@ -131,7 +134,7 @@ const Submissions = () => {
               <p>ID: {image._id}</p>
               <p>File Name: {image.fileName}</p>
               <a
-                href={`http://localhost:3002/image/${image._id}`}
+                href={`${API}/image/${image._id}`}
                 download={image.fileName}
                 className="btn btn-primary"
                 style={{width: "200px"}}
@@ -139,10 +142,10 @@ const Submissions = () => {
                 Download
               </a>
 
-              <img style={{width: "200px"}} src={`http://localhost:3002/image/${image._id}`}></img>
+              <img style={{width: "200px"}} src={`${API}/image/${image._id}`}></img>
 
 
-              <button onClick={() => toBW({path: `http://localhost:3002/image/${image._id}`})}>Black and white</button>
+              <button onClick={() => toBW({path: `${API}/image/${image._id}`})}>Black and white</button>
             </li>
           ))}
         </ul>
@@ -157,7 +160,7 @@ const Submissions = () => {
      {bwi.length > 0 ? (
         <ul>
           {bwi.map((image) => (
-              <img style={{width: "200px"}} src={`http://localhost:3002/images/bw/${image._id}`}></img>
+              <img style={{width: "200px"}} src={`${API}/images/bw/${image._id}`}></img>
           ))}
         </ul>
       ) : (

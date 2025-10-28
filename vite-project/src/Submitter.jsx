@@ -6,12 +6,16 @@ import './App.css'
 import './index.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchExamTimeThunk, decrementTimer } from './timerslicer';
+import { fetchExamTimeThunk, decrementTimer } from './timerSlicer';
 import { Provider } from 'react-redux';
 import store from './store'; // Import the Redux store
 
 // submitter
 const FileUpload = () => {
+    const isDeployed = true;
+    const API = isDeployed ? "" : "http://localhost:3002";
+
+
   const [file, setFile] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const files = useSelector((state) => state.files);
@@ -39,7 +43,9 @@ const FileUpload = () => {
   useEffect(() => {
     const fetchDeadline = async () => {
       try {
-        const response = await fetch('http://localhost:3002/deadline');
+       
+
+        const response = await fetch(`${API}/deadline`);
         if (!response.ok) {
           throw new Error('Failed to fetch deadline');
         }
@@ -55,7 +61,7 @@ const FileUpload = () => {
       try {
 
 
-        const r1 = await fetch("http://localhost:3002/latest-submission");//.then(res => res.json()).then(res => console.log(res.feedback));
+        const r1 = await fetch(`${API}/latest-submission`);//.then(res => res.json()).then(res => console.log(res.feedback));
         const waitForMe = await r1.json();
 
         const myID = waitForMe.id;
@@ -63,7 +69,7 @@ const FileUpload = () => {
 
 
 
-        const response = await fetch(`http://localhost:3002/grade/${myID}`);
+        const response = await fetch(`${API}/grade/${myID}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch feedback');
@@ -84,7 +90,7 @@ const FileUpload = () => {
     event.preventDefault();
     if (file) {
       try {
-        const response = await fetch('http://localhost:3002/upload', {
+        const response = await fetch(`${API}/upload`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
