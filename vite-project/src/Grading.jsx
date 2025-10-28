@@ -6,6 +6,9 @@ import './App.css'
 import './index.css';
 
 const GradingForm = ({ fileId }) => { // fileId is the ID of the file being graded
+   const isDeployed = true;
+    const API = isDeployed ? "" : "http://localhost:3002";
+
   const [grade, setGrade] = useState('');
   const [feedback, setFeedback] = useState('');
 
@@ -25,7 +28,7 @@ const GradingForm = ({ fileId }) => { // fileId is the ID of the file being grad
     const comment = feedback;
 
     try {
-      const response = await fetch(`http://localhost:3002/grade/${fileId}`, {
+      const response = await fetch(`${API}/grade/${fileId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +51,7 @@ const GradingForm = ({ fileId }) => { // fileId is the ID of the file being grad
 
   const handleDeleteAll = async () => {
     try {
-      const response = await fetch('http://localhost:3002/submissions', {
+      const response = await fetch(`${API}/submissions`, {
         method: 'DELETE',
       });
 
