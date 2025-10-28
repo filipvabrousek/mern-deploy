@@ -1,8 +1,8 @@
 // hooks/useExamAPI.js
 export const useExamAPI = () => {
  // const API = ""; // for deploy
-  const isDeployed = true;
-  const API = isDeployed ? "" : "http://localhost:3002"; // for local
+  const isDeployed = false;
+  const API = isDeployed ? "" : "http://localhost:3002"; // for locala
 
   const fetchJSON = async (endpoint, options = {}) => {
     const res = await fetch(`${API}${endpoint}`, {
