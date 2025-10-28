@@ -29,7 +29,7 @@ const App = () => {
         <Route path="/questions" element={<Questions/>} />
         <Route path="/submitter" element={<FileUpload/>} />
         <Route path="/uploaded" element={<UploadedFiles/>} />
-        <Route path="/submissions" element={<Submissions/>} />
+        <Route path="/grading" element={<Submissions/>} />
         <Route path="/cloze" element={<ClozeWrapper/>} />
       </Routes>
     </Router>
