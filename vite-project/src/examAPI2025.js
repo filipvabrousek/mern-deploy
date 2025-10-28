@@ -1,8 +1,10 @@
 // hooks/useExamAPI.js
 export const useExamAPI = () => {
  // const API = ""; // for deploy
-  const isDeployed = false;
-  const API = isDeployed ? "" : "http://localhost:3002"; // for locala
+ // const isDeployed = false;
+ // const API = isDeployed ? "" : "http://localhost:3002"; // for locala
+  const API = import.meta.env.VITE_API_URL || "http://localhost:3002"; // 213117 cool 28/10/25
+//  echo VITE_API_URL=http://localhost:3002> .env.development in ROOT
 
   const fetchJSON = async (endpoint, options = {}) => {
     const res = await fetch(`${API}${endpoint}`, {
