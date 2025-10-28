@@ -12,9 +12,7 @@ import store from './store'; // Import the Redux store
 
 // submitter
 const FileUpload = () => {
-    const isDeployed = true;
-    const API = isDeployed ? "" : "http://localhost:3002";
-
+    const API = import.meta.env.VITE_API_URL || "http://localhost:3002";
 
   const [file, setFile] = useState(null);
   const [feedback, setFeedback] = useState(null);

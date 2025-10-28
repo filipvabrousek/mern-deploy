@@ -6,8 +6,7 @@ import './App.css'
 import './index.css';
 
 const GradingForm = ({ fileId }) => { // fileId is the ID of the file being graded
-   const isDeployed = true;
-    const API = isDeployed ? "" : "http://localhost:3002";
+    const API = import.meta.env.VITE_API_URL || "http://localhost:3002";
 
   const [grade, setGrade] = useState('');
   const [feedback, setFeedback] = useState('');

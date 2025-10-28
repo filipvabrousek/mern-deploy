@@ -12,8 +12,7 @@ const Submissions = () => {
   const [images, setImages] = useState([]);
   const [bwi, setBWI] = useState([]);
 
-    const isDeployed = true;
-    const API = isDeployed ? "" : "http://localhost:3002";
+     const API = import.meta.env.VITE_API_URL || "http://localhost:3002";
 
   const fetchFiles = async () => {
     try {
