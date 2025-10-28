@@ -618,7 +618,7 @@ app.get('/files/:id', async (req, res) => {
     res.status(500).json({ message: 'Error downloading file', error });
   }
 });
-
+/*
 const mockNetworkingQuestions = [
   {
     type: "question",
@@ -639,7 +639,138 @@ const mockNetworkingQuestions = [
   blanks: ["Paris", "Berlin", "London", "Rome"],
   correctAnswers: ["Paris", "Berlin"]
 }
+];*/
+
+const mockNetworkingQuestions = [
+  // --- Multiple-choice networking questions ---
+  {
+    type: "question",
+    question: "Which OSI layer is responsible for reliable end-to-end delivery?",
+    options: ["Physical", "Transport", "Network", "Session"],
+    answer: "Transport",
+  },
+  {
+    type: "question",
+    question: "What is the default port number for HTTPS?",
+    options: ["80", "443", "21", "25"],
+    answer: "443",
+  },
+  {
+    type: "question",
+    question: "Which protocol translates domain names into IP addresses?",
+    options: ["FTP", "DNS", "SMTP", "ARP"],
+    answer: "DNS",
+  },
+  {
+    type: "question",
+    question: "What device operates primarily at the Data Link layer?",
+    options: ["Router", "Switch", "Hub", "Gateway"],
+    answer: "Switch",
+  },
+  {
+    type: "question",
+    question: "Which of the following is a connectionless protocol?",
+    options: ["TCP", "UDP", "FTP", "SSH"],
+    answer: "UDP",
+  },
+  {
+    type: "question",
+    question: "What is the purpose of the ARP protocol?",
+    options: [
+      "Resolve IP to MAC addresses",
+      "Encrypt data packets",
+      "Route data between subnets",
+      "Manage DNS zones",
+    ],
+    answer: "Resolve IP to MAC addresses",
+  },
+
+  // --- Cloze (conceptual fill-in-the-blank) ---
+  {
+    type: "cloze",
+    text: "HTTP typically uses port [_____] while HTTPS uses port [_____].",
+    blanks: ["80", "443", "21", "25"],
+    correctAnswers: ["80", "443"],
+  },
+  {
+    type: "cloze",
+    text: "TCP establishes a connection using a [_____]-way handshake.",
+    blanks: ["Two", "Three", "Four", "Five"],
+    correctAnswers: ["Three"],
+  },
+  {
+    type: "cloze",
+    text: "The [_____] protocol is used to automatically assign IP addresses to devices on a network.",
+    blanks: ["DHCP", "DNS", "HTTP", "SMTP"],
+    correctAnswers: ["DHCP"],
+  },
+  {
+    type: "cloze",
+    text: "An IP address is divided into a [_____] part and a [_____] part.",
+    blanks: ["network", "host", "protocol", "gateway"],
+    correctAnswers: ["network", "host"],
+  },
+  {
+    type: "cloze",
+    text: "The [_____] protocol provides secure remote login over an encrypted channel.",
+    blanks: ["SSH", "FTP", "Telnet", "SNMP"],
+    correctAnswers: ["SSH"],
+  },
+
+  // --- Code completion (networking snippets) ---
+  {
+    type: "cloze",
+    text: `In Node.js, you can make an HTTP GET request using the fetch API:
+const response = await [_____]("https://api.example.com/data");
+const json = await response.[_____]();`,
+    blanks: ["fetch", "json", "get", "read"],
+    correctAnswers: ["fetch", "json"],
+  },
+  {
+    type: "cloze",
+    text: `In Python, you can send a GET request using the requests library:
+import requests
+response = requests.[_____]("https://example.com")
+print(response.[_____])`,
+    blanks: ["get", "status_code", "read", "open"],
+    correctAnswers: ["get", "status_code"],
+  },
+  {
+    type: "cloze",
+    text: `In JavaScript, to open a WebSocket connection:
+const socket = new [_____](\"wss://echo.websocket.org\");
+socket.[_____] = (event) => console.log(event.data);`,
+    blanks: ["WebSocket", "onmessage", "connect", "receive"],
+    correctAnswers: ["WebSocket", "onmessage"],
+  },
+  {
+    type: "cloze",
+    text: `In Python, to create a TCP socket:
+import socket
+s = socket.[_____](socket.AF_INET, socket.SOCK_STREAM)
+s.[_____](("example.com", 80))`,
+    blanks: ["socket", "connect", "bind", "listen"],
+    correctAnswers: ["socket", "connect"],
+  },
+  {
+    type: "cloze",
+    text: `In Node.js, to start a simple HTTP server:
+import http from "http";
+http.[_____]((req, res) => {
+  res.[_____](\"Hello, world!\");
+}).listen(3000);`,
+    blanks: ["createServer", "end", "write", "serve"],
+    correctAnswers: ["createServer", "end"],
+  },
+  {
+    type: "cloze",
+    text: `In curl, to send a POST request with JSON data:
+curl -X [_____] -H "Content-Type: application/json" -d '{"name":"test"}' [URL]`,
+    blanks: ["POST", "GET", "PUT", "DELETE"],
+    correctAnswers: ["POST"],
+  },
 ];
+
 
 
 // -------------------------------------------------ADD QUESTION-------------------------------------------------------------
