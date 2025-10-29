@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import axios from './axios'
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import './index.css';
 
@@ -188,112 +188,137 @@ function Home() {
 
   return (
     <>
+  {/* Welcome Section */}
+  <div className="p-6 max-w-xl mx-auto">
+    <h2 className="text-2xl font-bold mb-4">Welcome!</h2>
 
-      <h2 class="mb-4">Welcome!</h2>
-      <a href="/questions">Exam</a><br></br>
-      <a href="/submitter">Submit</a><br></br>
-      <a href="/cloze">Cloze</a>
-      <h3>{ message }</h3>
+    {/* Navigation Links */}
+    <div className="flex flex-col space-y-1 mb-4">
+      <a href="/questions" className="text-blue-600 hover:underline">Exam</a>
+      <a href="/submitter" className="text-blue-600 hover:underline">Submit</a>
+      <a href="/cloze" className="text-blue-600 hover:underline">Cloze</a>
+    </div>
 
-      <h2 class="mb-4">Add New User</h2>
-      <form onSubmit={handleSubmit} class="needs-validation" noValidate>
-        <div class="mb-3">
-          <label for="name" class="form-label">Name:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            name="name"
-            value={newUser.name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+    {/* Message Section */}
+    {message && <h3 className="text-green-600 mb-6">{message}</h3>}
 
-        <div class="mb-3">
-          <label for="age" class="form-label">Age:</label>
-          <input
-            type="number"
-            class="form-control"
-            id="age"
-            name="age"
-            value={newUser.age}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+    {/* Add New User Form */}
+    <h2 className="text-xl font-semibold mb-4">Add New User</h2>
+    <form onSubmit={handleSubmit} className="space-y-4 mb-6">
+      {/* Name */}
+      <div>
+        <label htmlFor="name" className="block mb-1 font-medium">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={newUser.name}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email:</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            value={newUser.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+      {/* Age */}
+      <div>
+        <label htmlFor="age" className="block mb-1 font-medium">Age:</label>
+        <input
+          type="number"
+          id="age"
+          name="age"
+          value={newUser.age}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Password:</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            value={newUser.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+      {/* Email */}
+      <div>
+        <label htmlFor="email" className="block mb-1 font-medium">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={newUser.email}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
 
-        <button type="submit" class="btn btn-primary mb-2">Add User</button>
-      </form>
+      {/* Password */}
+      <div>
+        <label htmlFor="password" className="block mb-1 font-medium">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={newUser.password}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
 
-
-
-    <form onSubmit={handleLoginSubmit}>
-    <div class="mb-3">
-          <label for="email" class="form-label">Email:</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            value={loginUser.email}
-            onChange={handleLoginChange}
-            required
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="password" class="form-label">Password:</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            value={loginUser.password}
-            onChange={handleLoginChange}
-            required
-          />
-        </div>
-
-        <button type="submit" class="btn btn-primary mb-2">Login</button>
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+      >
+        Add User
+      </button>
     </form>
 
-      <ul class="list-group">
-        {users.map((user) => (
-          <li key={user._id} class="list-group-item d-flex justify-content-between align-items-center">
-            <span>
-              <strong>{user.name}</strong> - {user.age} years old - {user.email}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </>
+    {/* Login Form */}
+    <h2 className="text-xl font-semibold mb-4">Login</h2>
+    <form onSubmit={handleLoginSubmit} className="space-y-4 mb-6">
+      <div>
+        <label htmlFor="login-email" className="block mb-1 font-medium">Email:</label>
+        <input
+          type="email"
+          id="login-email"
+          name="email"
+          value={loginUser.email}
+          onChange={handleLoginChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
+
+      <div>
+        <label htmlFor="login-password" className="block mb-1 font-medium">Password:</label>
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          value={loginUser.password}
+          onChange={handleLoginChange}
+          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+      >
+        Login
+      </button>
+    </form>
+
+    {/* Users List */}
+    <ul className="space-y-2">
+      {users.map((user) => (
+        <li key={user._id} className="flex justify-between items-center p-3 border rounded">
+          <span>
+            <strong>{user.name}</strong> - {user.age} years old - {user.email}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</>
+
   )
 }
 

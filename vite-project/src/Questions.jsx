@@ -8,9 +8,11 @@ import { useExamTimer } from "./usetimer";
 import { QuestionList } from "./QuestionList";
 import { formatTime, formatTimestamp, randomTimeString } from "./timeFormatter";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./index.css";
+
+// 212239 postcss was needed
 
 // Redux store
 const store = configureStore({
@@ -224,77 +226,94 @@ function Questions() {
   };
 
   return (
-    <Provider store={store}>
-      <h3 style={{color: "orange"}}>QExam</h3>
-      <a href="/">Back</a>
-      <h3>{localStorage.getItem("user") || "A"}</h3>
+     <Provider store={store}>
+      {/* Header */}
+      <h3 className="text-orange-500 text-2xl font-semibold mb-2">QExam</h3>
+      <a href="/" className="text-blue-500 hover:underline mb-2 block">Back</a>
+      <h3 className="text-lg mb-4">{localStorage.getItem("user") || "A"}</h3>
 
+      {/* Controls before exam */}
       {!openExam && (
-        <div>
-          <button onClick={addQuestions} className="btn btn-secondary m-3">
+        <div className="flex flex-wrap justify-center items-center gap-3 mb-4">
+          <button
+            onClick={addQuestions}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition"
+          >
             + 1 question
           </button>
-          <button onClick={handleDeleteAllQ} className="btn btn-secondary m-3">
+          <button
+            onClick={handleDeleteAllQ}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition"
+          >
             Delete questions
           </button>
-          <button onClick={resetExam} className="btn btn-secondary m-3">
+          <button
+            onClick={resetExam}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition"
+          >
             Reset exam
           </button>
         </div>
       )}
 
+      {/* Start Exam Button */}
       {!hideStartExamBtn && !openExam && (
-        <button onClick={beginExam} className="btn btn-primary m-3">
+        <button
+          onClick={beginExam}
+          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition mb-4"
+        >
           Start exam
         </button>
       )}
 
-      <div
-        className="exam-container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className="flex flex-col items-center w-full max-w-[600px] mx-auto">
+        {/* Past Results */}
         {!openExam && fetchedResult.length > 0 && (
-          <div className="w-100 mb-4">
-            <h4>Past Results</h4>
+          <div className="w-full mb-6">
+            <h4 className="text-lg font-semibold mb-2">Past Results</h4>
             {fetchedResult.map((r) => (
               <div
                 key={randomTimeString()}
-                className="container border-green"
-                style={{
-                  border: "3px solid green",
-                  marginBottom: "1rem",
-                  borderRadius: "1rem",
-                }}
+                className="border-4 border-green-500 rounded-xl mb-4 p-4"
               >
                 <p>{randomTimeString()}</p>
                 <p>{formatTimestamp(r.timestamp)}</p>
-                <h3>{r.nickname}</h3>
+                <h3 className="font-bold">{r.nickname}</h3>
                 <p>{r.score}</p>
               </div>
             ))}
           </div>
         )}
-        {/* 212545 cool 25/10/25 */}
 
+        {/* Exam Form */}
         {openExam && questions && questions.length > 0 && (
-          <form onSubmit={handleSubmit} style={{ width: "600px" }}>
-            <h3>{formatTime(timeLefta)}</h3>
+          <form className="w-full" onSubmit={handleSubmit}>
+            {/* Timer */}
+            <h3 className="text-lg font-medium mb-2">{formatTime(timeLefta)}</h3>
 
-            <div className="mb-3 d-flex flex-wrap" style={{ width: "300px" }}>
+            {/* Question Index */}
+            <h2 className="text-xl font-semibold mb-4">
+              {currentQuestionIndex + 1}/{questions.length}
+            </h2>
+
+            {/* Question Number Buttons */}
+            <div className="mb-4 flex flex-wrap gap-2 w-full max-w-[300px]">
               {questions.map((q, idx) => {
-                const answered = !!selectedAnswers[q._id]; // false
+                const answered = !!selectedAnswers[q._id];
+                const isCurrent = currentQuestionIndex === idx;
+
                 return (
                   <button
                     key={idx}
                     type="button"
-                    className={`btn btn-sm m-1 ${
-                      answered ? "btn-success" : "btn-outline-secondary"
-                    } ${currentQuestionIndex === idx ? "border-primary" : ""}`}
                     onClick={() => setCurrentQuestionIndex(idx)}
+                    className={`
+                      w-10 h-10 flex items-center justify-center rounded-md
+                      text-sm font-medium transition-colors
+                      ${answered ? "bg-green-500 text-white" : "bg-gray-200 text-gray-800"}
+                      ${isCurrent ? "ring-2 ring-blue-500" : ""}
+                      hover:bg-green-400
+                    `}
                   >
                     {idx + 1}
                   </button>
@@ -302,57 +321,68 @@ function Questions() {
               })}
             </div>
 
+            {/* Question List */}
             <QuestionList
               questions={[questions[currentQuestionIndex]]}
               currentIndex={currentQuestionIndex}
               selectedAnswers={selectedAnswers}
               onChange={handleOptionChange}
             />
-            <div className="d-flex justify-content-between mt-3">
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-4 w-full gap-3">
+              {/* Previous */}
               <button
                 type="button"
-                className="btn btn-secondary"
                 disabled={currentQuestionIndex === 0}
                 onClick={() =>
                   setCurrentQuestionIndex(currentQuestionIndex - 1)
                 }
+                className="px-4 py-2 bg-gray-500 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition"
               >
                 Previous
               </button>
 
+              {/* Next or End */}
               {currentQuestionIndex < questions.length - 1 ? (
                 <button
                   type="button"
-                  className="btn btn-secondary"
                   onClick={() =>
                     setCurrentQuestionIndex(currentQuestionIndex + 1)
                   }
+                  className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition"
                 >
                   Next
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="btn btn-danger"
-                  onClick={handleSubmit} // End exam
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
                 >
                   End Exam
                 </button>
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary w-100 mt-3">
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            >
               Submit
             </button>
           </form>
         )}
 
-        {result && <h3 className="mt-4">{result}</h3>}
+        {/* Exam Results */}
+        {result && <h3 className="mt-4 text-lg font-semibold">{result}</h3>}
+
         {testResults &&
           testResults.map((r, idx) => (
-            <div key={idx}>
-              <h4>{r.equation || r.question}</h4>
-              <h4>{r.result}</h4>
+            <div key={idx} className="mt-2">
+              <h4 className="font-medium">{r.equation || r.question}</h4>
+              <h4 className="font-medium">{r.result}</h4>
             </div>
           ))}
       </div>

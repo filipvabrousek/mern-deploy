@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import axios from './axios'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import './index.css';
 import GradingForm from './Grading';
@@ -28,8 +28,6 @@ const Submissions = () => {
       console.error('Error fetching files:', error);
     }
   };
-
-
 
   const fetchImages = async () => {
     try {
