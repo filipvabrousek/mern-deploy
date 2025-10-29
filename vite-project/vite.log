@@ -12,10 +12,13 @@ Port 5179 is in use, trying another one...
 Port 5180 is in use, trying another one...
 Port 5181 is in use, trying another one...
 Port 5182 is in use, trying another one...
+Port 5183 is in use, trying another one...
 
-  VITE v5.4.19  ready in 249 ms
+  VITE v5.4.19  ready in 709 ms
 
-  ➜  Local:   http://localhost:5183/
+  ➜  Local:   http://localhost:5184/
   ➜  Network: use --host to expose
-10:38:51 AM [vite] hmr update /src/Questions.jsx
-10:38:54 AM [vite] hmr update /src/Questions.jsx
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+10:49:38 PM [vite] hmr update /src/Questions.jsx, /src/index.css
