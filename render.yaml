@@ -14,4 +14,6 @@ services:
         value: mongodb+srv://<username>:<password>@cluster0.mongodb.net/testdb
       - key: JWT_SECRET
         value: super_secret_key_123
+      - key: VITE_API_URL
+        value: https://mern-deploy-78du.onrender.com
 
