@@ -3,7 +3,7 @@ services:
     name: mern-test-app
     env: node
     plan: free
-    buildCommand: npm install && npm run heroku-postbuild
+    buildCommand: buildCommand: npm install && VITE_API_URL='https://mern-deploy-78du.onrender.com' npm run heroku-postbuild
     startCommand: npm start
     branch: main
     autoDeploy: true
@@ -14,6 +14,4 @@ services:
         value: mongodb+srv://<username>:<password>@cluster0.mongodb.net/testdb
       - key: JWT_SECRET
         value: super_secret_key_123
-      - key: VITE_API_URL
-        value: https://mern-deploy-78du.onrender.com
 
