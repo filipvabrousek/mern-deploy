@@ -286,7 +286,7 @@ function Questions() {
 
             <div className="mb-3 d-flex flex-wrap" style={{ width: "300px" }}>
               {questions.map((q, idx) => {
-                const answered = false; //!!selectedAnswers[q._id];
+                const answered = !!selectedAnswers[q._id]; // false
                 return (
                   <button
                     key={idx}
